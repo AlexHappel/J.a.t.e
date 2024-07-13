@@ -23,11 +23,26 @@ if (typeof editor === 'undefined') {
   loadSpinner();
 }
 
-// Check if service workers are supported
 if ('serviceWorker' in navigator) {
-  // register workbox service worker
-  const workboxSW = new Workbox('/src-sw.js');
-  workboxSW.register();
+  if (process.env.NODE_ENV === 'production') {
+    const workboxSW = new Workbox('/src-sw.js');
+    workboxSW.register().then((registration) => {
+      console.log('Service worker registered with scope:', registration.scope);
+    }).catch((error) => {
+      console.error('Service worker registration failed:', error);
+    });
+  } else {
+    // Unregister any existing service workers in development
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (const registration of registrations) {
+        registration.unregister().then(() => {
+          console.log('Service worker unregistered');
+        }).catch((error) => {
+          console.error('Service worker unregistration failed:', error);
+        });
+      }
+    });
+  }
 } else {
-  console.error('Service workers are not supported in this browser.');
+  console.log('Service workers are not supported in this browser.');
 }

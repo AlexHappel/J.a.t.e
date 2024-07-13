@@ -3,9 +3,11 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
-module.exports = () => {
+module.exports = (env, argv) => {
+  const mode = argv.mode || 'development';
+
   return {
-    mode: 'development',
+    mode: mode,
     entry: {
       main: './src/js/index.js',
       install: './src/js/install.js'
@@ -13,15 +15,12 @@ module.exports = () => {
     output: {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
+      clean: true,
     },
     plugins: [
       new HtmlWebpackPlugin({
         template: './index.html',
         title: 'J.A.T.E',
-      }),
-      new InjectManifest({
-        swSrc: './src-sw.js',
-        swDest: 'src-sw.js',
       }),
       new WebpackPwaManifest({
         fingerprints: false,
@@ -41,8 +40,11 @@ module.exports = () => {
           },
         ],
       }),
+      new InjectManifest({
+        swSrc: './src-sw.js',
+        swDest: 'src-sw.js',
+      }),
     ],
-
     module: {
       rules: [
         {
@@ -62,5 +64,24 @@ module.exports = () => {
         },
       ],
     },
+    devServer: {
+      static: {
+        directory: path.join(__dirname, 'dist'),
+      },
+      compress: true,
+      port: 8080,
+      hot: true,
+      historyApiFallback: true,
+    },
   };
 };
+
+
+
+
+
+
+
+
+
+
