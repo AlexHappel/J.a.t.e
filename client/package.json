@@ -1,5 +1,5 @@
 {
-  "name": "jate-root",
+  "name": "jate-client",
   "scripts": {
     "start": "webpack serve --open --hot",
     "build": "webpack --mode production",
