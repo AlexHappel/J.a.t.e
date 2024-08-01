@@ -7,7 +7,7 @@
     "start:dev": "concurrently \"npm run server --prefix server\" \"npm run start:dev --prefix client\"",
     "start": "npm run build --prefix client && npm run server --prefix server",
     "build": "npm run build --prefix client",
-    "server": "node server.js"
+    "server": "node server/server.js"
   },
   "keywords": [],
   "author": "",
