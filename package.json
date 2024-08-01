@@ -2,7 +2,7 @@
   "name": "JATE-root",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": ".js",
   "scripts": {
     "start:dev": "concurrently \"npm run server --prefix server\" \"npm run start:dev --prefix client\"",
     "start": "npm run build --prefix client && npm run server --prefix server",
