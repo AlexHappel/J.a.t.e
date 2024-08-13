@@ -15,7 +15,7 @@ module.exports = (env, argv) => {
     output: {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
-      clean: true,
+      clean: true, // Ensures that the output directory is cleaned before each build
     },
     plugins: [
       new HtmlWebpackPlugin({
@@ -23,8 +23,8 @@ module.exports = (env, argv) => {
         title: 'J.A.T.E',
       }),
       new WebpackPwaManifest({
-        fingerprints: false,
-        inject: true,
+        fingerprints: false, // Prevents hashing in filenames
+        inject: true, // Injects the manifest into the HTML
         name: 'Just Another Text Editor',
         short_name: 'J.A.T.E',
         description: 'A simple text editor PWA!',
@@ -41,15 +41,15 @@ module.exports = (env, argv) => {
         ],
       }),
       new InjectManifest({
-        swSrc: './src-sw.js',
-        swDest: 'src-sw.js',
+        swSrc: './src-sw.js', // Source of your custom service worker
+        swDest: 'src-sw.js', // Destination in the output directory
       }),
     ],
     module: {
       rules: [
         {
           test: /\.css$/i,
-          use: ['style-loader', 'css-loader'],
+          use: ['style-loader', 'css-loader'], // Handles CSS files
         },
         {
           test: /\.m?js$/,
@@ -57,8 +57,8 @@ module.exports = (env, argv) => {
           use: {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-env'],
-              plugins: ['@babel/plugin-transform-runtime'],
+              presets: ['@babel/preset-env'], // Transpiles modern JS for older environments
+              plugins: ['@babel/plugin-transform-runtime'], // Avoids code duplication
             },
           },
         },
@@ -66,12 +66,12 @@ module.exports = (env, argv) => {
     },
     devServer: {
       static: {
-        directory: path.join(__dirname, 'dist'),
+        directory: path.join(__dirname, 'dist'), 
       },
-      compress: true,
-      port: 8080,
-      hot: true,
-      historyApiFallback: true,
+      compress: true, 
+      port: 8080, 
+      hot: true, 
+      historyApiFallback: true, 
     },
   };
 };
